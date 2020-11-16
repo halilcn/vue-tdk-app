@@ -1,6 +1,6 @@
 <template>
   <div>
-    <transition-group name="results-list" v-if="results" tag="ul" class="results" mode="out-in">
+    <transition-group name="results-list" tag="ul" class="results" mode="out-in">
       <li v-for="(result,index) in results.anlamlarListe" :key="index">
         <span class="index">
           {{ index + 1 }}
@@ -8,24 +8,27 @@
         <span class="mean">
           {{ result.anlam }}
         </span>
-        <div class="example" v-for="resultExample in result.orneklerListe">
+        <div v-for="resultExample in result.orneklerListe" class="example">
           <span class="content">
-           Örn:{{ resultExample.ornek }}
+           {{ resultExample.ornek }}
           </span>
           <span class="writer" v-if="resultExample.yazar">
-            <i class="fas fa-pencil-alt"></i>
-              {{ resultExample.yazar[0].tam_adi }}
+              - {{ resultExample.yazar[0].tam_adi }}
           </span>
           <span class="writer" v-else>
             Anonim
           </span>
         </div>
       </li>
+      <li class="results_error" v-if="results==='0'">
+        <i style="padding-right: 3px;" class="fas fa-exclamation-circle"></i>
+        Böyle bir kelime yok.
+      </li>
+      <li class="results_error" v-if="results === 'null'">
+        <i class="fas fa-times"></i>
+        Kelime alanı boş bırakılamaz.
+      </li>
     </transition-group>
-    <div v-else>yok</div>
-    <!--<li v-else>
-      Böyle bir kelime yok.
-    </li>-->
   </div>
 </template>
 
@@ -48,12 +51,18 @@ export default {
   list-style-type: none;
 }
 
+.results .results_error {
+  color: #ea2929;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+}
+
 .results li {
   margin-top: 10px;
   border: 1px solid #ffebeb;
   background-color: #fff9f9;
   border-radius: 3px;
-  padding: 7px;
+  padding: 6px;
   position: relative;
 }
 
@@ -63,9 +72,7 @@ export default {
   position: absolute;
   left: -20px;
   top: 0px;
-  background-color: #f5f5f5;
-  padding: 5px;
-  border-radius: 20px;
+  color: #e72d2d;
 }
 
 .results li .mean {
@@ -90,6 +97,11 @@ export default {
   font-family: 'Open Sans', sans-serif;
   font-size: 12px;
   color: #676767
+}
+
+.word_null_warning {
+  width: 50%;
+  margin: 0px auto;
 }
 
 .results-list-enter-active {

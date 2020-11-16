@@ -4,20 +4,26 @@ import axios from 'axios'
 export default createStore({
   state: {
     word: '',
-    response: [] //nul ??
+    response: []
   },
   mutations: {
     setResponse (state, payload) {
       state.response = []
-
       setTimeout(function () {
-        state.response = payload
+        if (payload !== undefined) {
+          state.response = payload
+        } else {
+          state.response = '0'
+        }
       }, 500)
     }
   },
   actions: {
     wordPost ({ commit }, payload) {
-      console.log(payload)
+      if (payload.length === 0) {
+        commit('setResponse', 'null')
+        return 0
+      }
       axios.post('https://sozluk.gov.tr/gts?ara=' + payload)
         .then(response => {
           console.log(response.data[0])

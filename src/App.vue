@@ -3,5 +3,7 @@
 </template>
 
 <style>
-
+* {
+  outline: none;
+}
 </style>

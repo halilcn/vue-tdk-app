@@ -3,9 +3,19 @@
     <div class="title">
       TDK SÖZLÜK
     </div>
-    <div class="search_content">
-      <input v-model="word" @keypress.enter="wordPost" type="text">
-      <button @click.prevent="wordPost">Ara</button>
+    <div class="row">
+      <div class="search_content">
+        <input placeholder="Bir kelime yaz..." v-model="word" @keypress.enter="wordPost" type="text">
+        <button @click.prevent="wordPost">
+          ara
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+      <div class="random_word">
+        <button @click="randomWordSearch">
+          Rastgele Kelime
+        </button>
+      </div>
     </div>
     <response/>
   </div>
@@ -13,11 +23,14 @@
 
 <script>
 import Response from '@/components/Response'
+import RandomWords from '../../RandomWords.js'
 
 export default {
   data () {
     return {
-      word: ''
+      word: '',
+      words: [],
+      randomNumber: null
     }
   },
   components: {
@@ -26,6 +39,12 @@ export default {
   methods: {
     wordPost () {
       this.$store.dispatch('wordPost', this.word)
+    },
+    randomWordSearch () {
+      this.words = RandomWords
+      this.randomNumber = Math.ceil(Math.random() * 25)
+      this.$store.dispatch('wordPost', this.words[this.randomNumber])
+      this.word = this.words[this.randomNumber]
     }
   }
 }
@@ -42,7 +61,8 @@ body {
 }
 
 .container {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .container .title {
@@ -51,11 +71,16 @@ body {
   text-align: center;
 }
 
-.search_content {
+.row {
   display: flex;
-  justify-content: center;
+  align-self: center;
   align-items: center;
   margin-top: 50px;
+}
+
+.row .search_content {
+  display: flex;
+  justify-content: center;
 }
 
 .search_content input {
@@ -63,20 +88,41 @@ body {
   width: 300px;
   padding: 10px;
   border: 1px solid transparent;
-  border-bottom-color: #ec4646;
+  border-bottom-color: #ffc6c6;
   transition: .3s;
 }
 
 .search_content input:focus {
-  border-color: red;
-  background-color: #f6f6f6;
+  border-bottom-color: #ff8d8d;
   outline: none;
 }
 
 .search_content button {
-  padding: 5px 15px;
+  padding: 5px 10px;
   background-color: transparent;
   border: 0px;
+  border-radius: 3px;
   cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
 }
+
+.search_content button:hover {
+  background-color: #fff7f7;
+}
+
+.row .random_word {
+  margin-left: 90px;
+}
+
+.random_word button {
+  background-color: #1993e5;
+  color: white;
+  padding: 5px;
+  border: 0px;
+  border-radius: 3px;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  outline: none;
+}
+
 </style>
