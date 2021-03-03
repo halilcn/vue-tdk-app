@@ -1,4 +1,9 @@
+
+
 # vue-tdk-app
+
+## Proje Amacı
+Bu proje Vue.js Framework yapısını anlamam için yazılmıştır. Proje içerisinde TDK API kullanılarak, basit post işlemi yapılmıştır.
 
 ## Project setup
 ```
